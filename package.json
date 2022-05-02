@@ -5,7 +5,7 @@
   },
   "scripts": {
     "vercel": "pnpx vercel dev",
-    "build": "tsc -p api/tsconfig.json && tsc -p web/tsconfig.json"
+    "build": "tsc -p api/tsconfig.json"
   },
   "devDependencies": {
     "@types/marked": "4.0.1",

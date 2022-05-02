@@ -1,10 +1,9 @@
 {
   "compilerOptions": {
     "outDir": "dist",
-    "module": "commonjs",
-    "target": "esnext",
-    "moduleResolution": "node",
-    "jsx": "react",
+    "module": "CommonJS",
+    "target": "ESNext",
+    "moduleResolution": "Node",
     "sourceMap": true,
     "strict": true,
     "noFallthroughCasesInSwitch": true,

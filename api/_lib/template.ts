@@ -1,146 +1,150 @@
+import { readFileSync } from 'fs'
 
-import { readFileSync } from 'fs';
-import { marked } from 'marked';
-import { sanitizeHtml } from './sanitizer';
-import { ParsedRequest } from './types';
-const twemoji = require('twemoji');
-const twOptions = { folder: 'svg', ext: '.svg' };
-const emojify = (text: string) => twemoji.parse(text, twOptions);
+const poppinsBold = readFileSync(
+  `${__dirname}/../_fonts/Poppins-Bold.woff2`
+).toString('base64')
 
-const rglr = readFileSync(`${__dirname}/../_fonts/Inter-Regular.woff2`).toString('base64');
-const bold = readFileSync(`${__dirname}/../_fonts/Inter-Bold.woff2`).toString('base64');
-const mono = readFileSync(`${__dirname}/../_fonts/Vera-Mono.woff2`).toString('base64');
+const arsenicaBold = readFileSync(
+  `${__dirname}/../_fonts/Arsenica-Bold.woff2`
+).toString('base64')
 
-function getCss(theme: string, fontSize: string) {
-    let background = 'white';
-    let foreground = 'black';
-    let radial = 'lightgray';
-
-    if (theme === 'dark') {
-        background = 'black';
-        foreground = 'white';
-        radial = 'dimgray';
-    }
-    return `
-    @font-face {
-        font-family: 'Inter';
-        font-style:  normal;
-        font-weight: normal;
-        src: url(data:font/woff2;charset=utf-8;base64,${rglr}) format('woff2');
-    }
-
-    @font-face {
-        font-family: 'Inter';
-        font-style:  normal;
-        font-weight: bold;
-        src: url(data:font/woff2;charset=utf-8;base64,${bold}) format('woff2');
-    }
-
-    @font-face {
-        font-family: 'Vera';
-        font-style: normal;
-        font-weight: normal;
-        src: url(data:font/woff2;charset=utf-8;base64,${mono})  format("woff2");
-      }
-
-    body {
-        background: ${background};
-        background-image: radial-gradient(circle at 25px 25px, ${radial} 2%, transparent 0%), radial-gradient(circle at 75px 75px, ${radial} 2%, transparent 0%);
-        background-size: 100px 100px;
-        height: 100vh;
-        display: flex;
-        text-align: center;
-        align-items: center;
-        justify-content: center;
-    }
-
-    code {
-        color: #D400FF;
-        font-family: 'Vera';
-        white-space: pre-wrap;
-        letter-spacing: -5px;
-    }
-
-    code:before, code:after {
-        content: '\`';
-    }
-
-    .logo-wrapper {
-        display: flex;
-        align-items: center;
-        align-content: center;
-        justify-content: center;
-        justify-items: center;
-    }
-
-    .logo {
-        margin: 0 75px;
-    }
-
-    .plus {
-        color: #BBB;
-        font-family: Times New Roman, Verdana;
-        font-size: 100px;
-    }
-
-    .spacer {
-        margin: 150px;
-    }
-
-    .emoji {
-        height: 1em;
-        width: 1em;
-        margin: 0 .05em 0 .1em;
-        vertical-align: -0.1em;
-    }
-    
-    .heading {
-        font-family: 'Inter', sans-serif;
-        font-size: ${sanitizeHtml(fontSize)};
-        font-style: normal;
-        color: ${foreground};
-        line-height: 1.8;
-    }`;
+interface ParsedRequest {
+  text: string
 }
 
-export function getHtml(parsedReq: ParsedRequest) {
-    const { text, theme, md, fontSize, images, widths, heights } = parsedReq;
-    return `<!DOCTYPE html>
-<html>
-    <meta charset="utf-8">
-    <title>Generated Image</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <style>
-        ${getCss(theme, fontSize)}
-    </style>
-    <body>
-        <div>
-            <div class="spacer">
-            <div class="logo-wrapper">
-                ${images.map((img, i) =>
-                    getPlusSign(i) + getImage(img, widths[i], heights[i])
-                ).join('')}
+export function getHtml(parsedRequest: ParsedRequest) {
+  const { text } = parsedRequest
+
+  return `
+    <!DOCTYPE html>
+      <html>
+        <meta charset="utf-8">
+        <title>Generated Image</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <style>
+          @font-face {
+            font-family: 'Arsenica';
+            font-style:  normal;
+            font-weight: bold;
+            src: url(data:font/woff2;charset=utf-8;base64,${arsenicaBold}) format('woff2');
+          }
+
+          @font-face {
+            font-family: 'Poppins';
+            font-style:  normal;
+            font-weight: bold;
+            src: url(data:font/woff2;charset=utf-8;base64,${poppinsBold}) format('woff2');
+          }
+
+          html,
+          body {
+            height: 100%;
+          }
+
+          body {
+            margin: 0;
+            color: hsl(0 0% 98%);
+          }
+
+          .social-image {
+            width: 1200px;
+            height: 630px;
+            display: grid;
+            grid-template-rows: 1fr min-content;
+            background: radial-gradient(114% 114% at 50% 50%, #362131 0%, #221F2E 53%, #1C2222 100%);
+          }
+
+          .social-image h1 {
+            max-width: 900px;
+            align-self: center;
+            justify-self: center;
+            font-family: 'Arsenica', serif;
+            font-size: 96px;
+            line-height: 112px;
+            text-align: center;
+          }
+
+          .social-image .logo {
+            display: flex;
+            gap: 8px;
+            justify-self: center;
+            margin-bottom: 32px;
+          }
+
+          .social-image .logo span {
+            font-family: 'Poppins', sans-serif;
+            font-size: 16px;
+            font-weight: 700;
+            line-height: 32px;
+          }
+        </style>
+        <body>
+          <div class="social-image">
+            <h1>${text}</h1>
+            <div class="logo">
+              <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="16" cy="16" r="16" fill="#6E0C41"/>
+              <path d="M31.375 16C31.375 16.1673 31.3723 16.334 31.367 16.5H0.632996C0.627686 16.334 0.625 16.1673 0.625 16C0.625 15.7063 0.63324 15.4146 0.649475 15.125H31.3505C31.3668 15.4146 31.375 15.7063 31.375 16Z" fill="url(#paint0_linear_82_842)"/>
+              <path d="M0.807312 18.375C0.737183 17.9229 0.686768 17.4642 0.656982 17H31.343C31.3132 17.4642 31.2628 17.9229 31.1927 18.375H0.807312Z" fill="url(#paint1_linear_82_842)"/>
+              <path d="M0.942749 19.125C1.01245 19.4625 1.09314 19.796 1.18457 20.125H30.8154C30.9069 19.796 30.9875 19.4625 31.0573 19.125H0.942749Z" fill="url(#paint2_linear_82_842)"/>
+              <path d="M1.78729 21.875C1.65167 21.5472 1.52704 21.2137 1.41388 20.875H30.5861C30.473 21.2137 30.3483 21.5472 30.2127 21.875H1.78729Z" fill="url(#paint3_linear_82_842)"/>
+              <path d="M2.18201 22.75C2.30634 23.004 2.43744 23.2541 2.57513 23.5H29.4249C29.5626 23.2541 29.6937 23.004 29.818 22.75H2.18201Z" fill="url(#paint4_linear_82_842)"/>
+              <path d="M3.71759 25.25C3.59375 25.0859 3.47321 24.9192 3.3559 24.75H28.6441C28.5591 24.8726 28.4724 24.9939 28.3839 25.1139C28.3503 25.1595 28.3165 25.2048 28.2824 25.25H3.71759Z" fill="url(#paint5_linear_82_842)"/>
+              <path d="M4.88684 26.625C5.04987 26.7955 5.21674 26.9622 5.38739 27.125H26.6126C26.7833 26.9622 26.9501 26.7955 27.1132 26.625H4.88684Z" fill="url(#paint6_linear_82_842)"/>
+              <path d="M7.78711 29C7.53497 28.8404 7.28778 28.6736 7.04584 28.5H24.9542C24.7122 28.6736 24.465 28.8404 24.2129 29H7.78711Z" fill="url(#paint7_linear_82_842)"/>
+              <path d="M11.6467 30.75C13.027 31.1567 14.488 31.375 16 31.375C17.512 31.375 18.973 31.1567 20.3533 30.75H11.6467Z" fill="url(#paint8_linear_82_842)"/>
+              <path d="M31.3345 14.875C31.2947 14.3248 31.226 13.7826 31.1298 13.25H0.870239C0.774048 13.7826 0.705322 14.3248 0.665527 14.875H31.3345Z" fill="url(#paint9_linear_82_842)"/>
+              <path d="M16 0.625C23.4648 0.625 29.687 5.94478 31.0825 13H0.917542C2.31299 5.94478 8.53522 0.625 16 0.625Z" fill="url(#paint10_linear_82_842)"/>
+              <defs>
+              <linearGradient id="paint0_linear_82_842" x1="16" y1="0.625" x2="16" y2="31.375" gradientUnits="userSpaceOnUse">
+              <stop stop-color="#FBC129"/>
+              <stop offset="1" stop-color="#ED3FDC"/>
+              </linearGradient>
+              <linearGradient id="paint1_linear_82_842" x1="16" y1="0.625" x2="16" y2="31.375" gradientUnits="userSpaceOnUse">
+              <stop stop-color="#FBC129"/>
+              <stop offset="1" stop-color="#ED3FDC"/>
+              </linearGradient>
+              <linearGradient id="paint2_linear_82_842" x1="16" y1="0.625" x2="16" y2="31.375" gradientUnits="userSpaceOnUse">
+              <stop stop-color="#FBC129"/>
+              <stop offset="1" stop-color="#ED3FDC"/>
+              </linearGradient>
+              <linearGradient id="paint3_linear_82_842" x1="16" y1="0.625" x2="16" y2="31.375" gradientUnits="userSpaceOnUse">
+              <stop stop-color="#FBC129"/>
+              <stop offset="1" stop-color="#ED3FDC"/>
+              </linearGradient>
+              <linearGradient id="paint4_linear_82_842" x1="16" y1="0.625" x2="16" y2="31.375" gradientUnits="userSpaceOnUse">
+              <stop stop-color="#FBC129"/>
+              <stop offset="1" stop-color="#ED3FDC"/>
+              </linearGradient>
+              <linearGradient id="paint5_linear_82_842" x1="16" y1="0.625" x2="16" y2="31.375" gradientUnits="userSpaceOnUse">
+              <stop stop-color="#FBC129"/>
+              <stop offset="1" stop-color="#ED3FDC"/>
+              </linearGradient>
+              <linearGradient id="paint6_linear_82_842" x1="16" y1="0.625" x2="16" y2="31.375" gradientUnits="userSpaceOnUse">
+              <stop stop-color="#FBC129"/>
+              <stop offset="1" stop-color="#ED3FDC"/>
+              </linearGradient>
+              <linearGradient id="paint7_linear_82_842" x1="16" y1="0.625" x2="16" y2="31.375" gradientUnits="userSpaceOnUse">
+              <stop stop-color="#FBC129"/>
+              <stop offset="1" stop-color="#ED3FDC"/>
+              </linearGradient>
+              <linearGradient id="paint8_linear_82_842" x1="16" y1="0.625" x2="16" y2="31.375" gradientUnits="userSpaceOnUse">
+              <stop stop-color="#FBC129"/>
+              <stop offset="1" stop-color="#ED3FDC"/>
+              </linearGradient>
+              <linearGradient id="paint9_linear_82_842" x1="16" y1="0.625" x2="16" y2="31.375" gradientUnits="userSpaceOnUse">
+              <stop stop-color="#FBC129"/>
+              <stop offset="1" stop-color="#ED3FDC"/>
+              </linearGradient>
+              <linearGradient id="paint10_linear_82_842" x1="16" y1="0.625" x2="16" y2="31.375" gradientUnits="userSpaceOnUse">
+              <stop stop-color="#FBC129"/>
+              <stop offset="1" stop-color="#ED3FDC"/>
+              </linearGradient>
+              </defs>
+              </svg>
+              <span>Joy of Code</span>
             </div>
-            <div class="spacer">
-            <div class="heading">${emojify(
-                md ? marked(text) : sanitizeHtml(text)
-            )}
-            </div>
-        </div>
-    </body>
-</html>`;
-}
-
-function getImage(src: string, width ='auto', height = '225') {
-    return `<img
-        class="logo"
-        alt="Generated Image"
-        src="${sanitizeHtml(src)}"
-        width="${sanitizeHtml(width)}"
-        height="${sanitizeHtml(height)}"
-    />`
-}
-
-function getPlusSign(i: number) {
-    return i === 0 ? '' : '<div class="plus">+</div>';
+          </div>
+        </body>
+      </html>`
 }
