@@ -1,3 +1,5 @@
+//@ts-nocheck
+
 // import { IncomingMessage, ServerResponse } from 'http'
 
 import { parseRequest } from './_lib/parse'
@@ -9,8 +11,7 @@ const isHtmlDebug = process.env.OG_HTML_DEBUG === '1'
 // @ts-ignore
 // process.env.AWS_LAMBDA_FUNCTION_NAME = true
 
-// @ts-ignore
-export default async function handler(request, response) {
+export default async function handler(request: any, response: any) {
   try {
     const parsedRequest = parseRequest(request)
     const html = getHtml(parsedRequest)

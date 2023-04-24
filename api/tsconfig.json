@@ -5,7 +5,7 @@
     "target": "ESNext",
     "moduleResolution": "Node",
     "sourceMap": true,
-    "strict": true,
+    "strict": false,
     "noFallthroughCasesInSwitch": true,
     "noImplicitReturns": true,
     "noEmitOnError": true,

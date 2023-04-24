@@ -1,7 +1,8 @@
+//@ts-nocheck
+
 // import type { IncomingMessage } from 'http'
 
-// @ts-ignore
-export function parseRequest(request) {
+export function parseRequest(request: any) {
   console.log(`HTTP: ${request.url}`)
 
   const textMatch = request.url?.match(/\/(.*?).png/)

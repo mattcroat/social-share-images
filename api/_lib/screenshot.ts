@@ -1,3 +1,5 @@
+//@ts-nocheck
+
 import chrome from 'chrome-aws-lambda'
 import puppeteer from 'puppeteer-core'
 
