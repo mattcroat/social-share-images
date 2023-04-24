@@ -51,14 +51,14 @@ export function getHtml(parsedRequest: ParsedRequest) {
             height: 630px;
             display: grid;
             grid-template-rows: 1fr min-content;
-            background: radial-gradient(114% 114% at 50% 50%, #362131 0%, #221F2E 53%, #1C2222 100%);
+            background-image: linear-gradient(to bottom right, hsl(225deg,74%,40%),hsl(270deg,70%,40%));
           }
 
           .social-image h1 {
             max-width: 900px;
             align-self: center;
             justify-self: center;
-            font-family: 'Arsenica', serif;
+            font-family: 'Poppins', serif;
             font-size: 96px;
             line-height: 112px;
             text-align: center;
@@ -81,6 +81,7 @@ export function getHtml(parsedRequest: ParsedRequest) {
         <body>
           <div class="social-image">
             <h1>${text}</h1>
+            <!--
             <div class="logo">
               <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
               <circle cx="16" cy="16" r="16" fill="#6E0C41"/>
@@ -144,6 +145,7 @@ export function getHtml(parsedRequest: ParsedRequest) {
               </svg>
               <span>Joy of Code</span>
             </div>
+            -->
           </div>
         </body>
       </html>`
