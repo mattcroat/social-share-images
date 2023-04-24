@@ -37,19 +37,19 @@ If you ever go over the 50 MB size limit because of the size of the Chromium bin
 
 The project uses 📦️ [pnpm](https://pnpm.io/) but you can use any package manager.
 
-👬 Clone the project.
+### 👬 Clone the project
 
 ```sh
 git clone https://github.com/mattcroat/social-share-images.git
 ```
 
-📦️ Install the dependencies.
+### 📦️ Install the dependencies
 
 ```sh
 pnpm i
 ```
 
-📜 You can use the Vercel development environment with `vercel dev` which requires you to connect GitHub to Vercel and links the project on Vercel.
+### 📜 You can use the Vercel development environment with `vercel dev` which requires you to connect GitHub to Vercel and links the project on Vercel
 
 ```sh
 pnpx vercel dev
