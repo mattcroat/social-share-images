@@ -1,8 +1,10 @@
 # Social Share Images
 
-![Example of a social share image](./images/social-share-image.png)
+> **Warning** This repo is outdated and only works with Node.js 14. Please use [@vercel/og](https://vercel.com/blog/introducing-vercel-og-image-generation-fast-dynamic-social-card-images) for new projects.
 
-Social share images are a must to grab the attention of readers when sharing your content on social media.
+![Social share image](./images/social-share-image.webp)
+
+Social share images are used to grab the attention of readers when sharing content on social media.
 
 ## 🤨 What is an Open Graph image?
 
